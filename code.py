@@ -11,10 +11,11 @@ def create_db():
     conn.close()
 
 def insert_data(film_now):
-    sql_text = """INSERT INTO film_now VALUES (?)"""
+    sql_text = """INSERT INTO film VALUES (?)"""
     conn = sqlite3.connect("film.db")
     curs = conn.cursor()
     curs.execute(sql_text, (film_now))
+    conn.commit()
     conn.close()
 
 data = []
@@ -26,7 +27,6 @@ for el in html.select(".soon_el > .el_right"):
     title = el.select(".soon_fm_name")
     data.append(title[0].text)
 
-# просто роздрукувати дані
 for item in data:
     insert_data(item)
 
