@@ -1,62 +1,38 @@
-# import requests
-# from bs4 import BeautifulSoup
-# import sqlite3
-# url = "https://multiplex.ua/soon"
-#
-# response = requests.get(url)
-# html = response.text
-# soup = BeautifulSoup(html, "html.parser")
-#
-# container = soup.select_one("div.el_right")
-# post = container.find_all("span")
-#
-# for th in post:
-#     a = th.text
-#     print(a)
-
-
-""" тут виводиться один елемент і записується в масив"""
-# import requests
-# from bs4 import BeautifulSoup
-# import sqlite3
-# url = "https://multiplex.ua/soon"
-#
-# response = requests.get(url)
-# html = response.text
-# soup = BeautifulSoup(html, "html.parser")
-#
-# # container = soup.select_one("div.soon_by_day")
-# arr=[]
-# container = soup.select_one("div.soon_el")
-# day = container.select_one("p.el_day_name").text[4:]
-# fm = container.find_all("span")
-# for i in fm:
-#     arr.append((day, (i).text))
-# print(arr)
-
-"""Тут спробуємо інший варіант"""
-import requests
-from bs4 import BeautifulSoup
 import sqlite3
-url = "https://multiplex.ua/soon"
+import telebot
+from telebot import types
 
-response = requests.get(url)
-html = response.text
-soup = BeautifulSoup(html, "html.parser")
+bot = telebot.TeleBot("5044535424:AAGn8WcUHezwEFLiDM4P00eLLVtd1-_zjqw")
 
-arr=[]
+res=[]
 
-container = soup.select_one("div.soon_by_day")
-days = container.find_all("div",{"class":"soon_el"})
+def fm_days():
+    sql_text = """SELECT DISTINCT date FROM films LIMIT 10"""
+    conn = sqlite3.connect('multiplex.db')
+    curs = conn.cursor()
+    curs.execute(sql_text)
+    global res(curs.fetchall())
+    conn.close()
+    return res
 
-for i in days:
-    day = i.select_one("p.el_day_date").text
-    fm = i.find_all("span")
-    for j in fm:
-        arr.append((day, (j).text))
+@bot.message_handler()
+def send_welcome(message):
+    bot.reply_to(message, 'Привіт! Обери день, коли маєш іти в кінотеатр', reply_markup=markup)
 
-conn = sqlite3.connect("multiplex.db")
-cursor = conn.cursor()
-cursor.executemany("INSERT INTO films VALUES (?,?)", arr)
-conn.commit()
-conn.close()
+
+# markup = types.ReplyKeyboardMarkup(row_width=2)
+# btn1 = types.KeyboardButton(fm_days[0])
+# btn2 = types.KeyboardButton(fm_days[1])
+# btn3 = types.KeyboardButton(fm_days[2])
+# btn4 = types.KeyboardButton(fm_days[3])
+# btn5 = types.KeyboardButton(fm_days[4])
+# btn6 = types.KeyboardButton(fm_days[5])
+# btn7 = types.KeyboardButton(fm_days[6])
+# btn8 = types.KeyboardButton(fm_days[7])
+# btn9 = types.KeyboardButton(fm_days[8])
+# btn10 = types.KeyboardButton(fm_days[9])
+# markup.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, )
+
+print(res)
+
+bot.infinity_polling()
