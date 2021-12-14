@@ -16,6 +16,7 @@ kbd2 = []
 kbd3 = []
 
 db = {}
+res=[]
 
 level1 = 1
 level2 = 2
@@ -89,11 +90,14 @@ async def film_open_command(message: types.Message):
         # print(i[0])
     kb_film.add(*kbd2)
     db[message.chat.id] = level2
-    # repr(kbd2)
+    list(res)
     print(type(res))
     print(res)
-    # f = search_film()
+    for j in range(10):
+        res[j] = res[j][0]
+    print(res)
     await bot.send_message(message.from_user.id, 'Обери фільм', reply_markup=kb_film)
+    return res, kb_film
 
 
 @dp.message_handler(commands=['кінотеатр'])
@@ -103,7 +107,7 @@ async def cinema_place_command(message: types.Message):
 
 """!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!це працює!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"""
 # @dp.message_handler(lambda message: message.text == '/Ґрінч' and db.get(message.chat.id, 1) == level2)
-@dp.message_handler(lambda message: res.index(message.text[1:]) and db.get(message.chat.id, 1) == level2) #print("free" in txt)
+@dp.message_handler(lambda message: res.index(message.text[1:]) and db.get(message.chat.id, 1) == level2)
 async def place_command(message: types.Message):
     await message.answer('Ви обрали фільм')
     # c = search_cinema()

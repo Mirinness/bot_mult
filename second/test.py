@@ -16,5 +16,9 @@
 # return res
 
 
-py_string = 'Python'
-print(py_string.slice(3))
+a = [('one',), ('two',), ('three',)]
+
+for i in range(3):
+    a[i] = a[i][0]
+
+print(type(a))
