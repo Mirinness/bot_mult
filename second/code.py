@@ -21,7 +21,7 @@ class Cinema:
         # print(list_)
         conn = sqlite3.connect("multiplex.db")
         cursor = conn.cursor()
-        cursor.executemany("INSERT INTO films2 VALUES (?,?,?,?,?,?)", list_)
+        cursor.executemany("INSERT INTO films2 VALUES (?,?,?,?,?,?,?,?)", list_)
         conn.commit()
         conn.close()
 
@@ -46,7 +46,9 @@ class Multiplex(Cinema):
                             i.find('p', class_='time').text,
                             i.find('p', class_='tag').text,
                             name_build,
-                            address
+                            address,
+                            i.get('data-id'),
+                            link
                         ]
 
                     )

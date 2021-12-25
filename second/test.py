@@ -16,9 +16,134 @@
 # return res
 
 
-a = [('one',), ('two',), ('three',)]
+# a = [('one',), ('two',), ('three',)]
+# b = ['1', '2', '3']
+#
+# print(*b)
+# print(b)
+"""---------------------------------------------"""
 
-for i in range(3):
-    a[i] = a[i][0]
+# import requests
+# from bs4 import BeautifulSoup
+#
+# def link(date, film, time):
+#     test={}
+#     # date="25122021"
+#     # film="Співай 2"
+#     # time="13:40"
+#     r = requests.get("https://multiplex.ua/cinema/kyiv/tsum")
+#     soup = BeautifulSoup(r.text, 'lxml')
+#     lvl1 = soup.find('div', attrs={'data-date': date})
+#     lvl2 = lvl1.find_all('div', attrs={'data-name': film})
+#     for i in lvl2:
+#         test.update(
+#             {
+#                 i.find('p', class_='time').text :
+#                 i.get('data-id')
+#             }
+#         )
+#
+#     arr = test[time].split("-")
+#
+#     link1 = arr[0]
+#     link2 = arr[1]
+#     link = "https://new.multiplex.ua/order/cinema/" + link1 + "/session/" + link2
+#     return link
+#
+# print(link("26122021", "Співай 2", "11:40"))
+# print(test)
+# print(test[time])
+"""------------ще одне повторення РЕАЛЬНО РОБОЧА ФУНКЦІЯ----------------"""
+# import requests
+# from bs4 import BeautifulSoup
+#
+# def link_pay(date, film, time):
+#     test = {}
+#     r = requests.get("https://multiplex.ua/cinema/kyiv/tsum") # ТАКОЖ ЗМІНИТИ ПОСИЛАННЯ ДЛЯ КОЖНОГО ФІЛЬМУ ВІДПОВІДНО
+#     soup = BeautifulSoup(r.text, 'lxml')
+#     lvl1 = soup.find('div', attrs={'data-date': date})
+#     lvl2 = lvl1.find_all('div', attrs={'data-name': film})
+#     for i in lvl2:
+#         test.update(
+#             {
+#                 i.find('p', class_='time').text :
+#                 i.get('data-id')
+#             }
+#         )
+#     arr = test[time].split("-")
+#     link1 = arr[0]
+#     link2 = arr[1]
+#     link = "https://new.multiplex.ua/order/cinema/" + link1 + "/session/" + link2
+#     return link
 
-print(type(a))
+
+"""---------------------------------------------"""
+# test = "0000000031-21489"
+#
+# arr = test.split("-")
+# link1 = arr[0]
+# link2 = arr[1]
+# print(link1)
+# print(link2)
+
+#h = soup.select_one('div', class_="ns locked")
+# arr = soup.find_all('div', attrs={'data-name': 'Людина-павук: Додому шляху нема '})
+# for i in arr:
+#     test.append(i.find('p', class_='time').text)
+#s = h.get("time")
+
+# my_st = "синий,оранжевый,красный"
+# print(my_st.split(","))
+
+# arr = soup.find_all('p', class_="time")
+# for i in arr:
+#     b = i.text
+#     print(b)
+#print(arr)
+"""test"""
+# a = "Лавіна"
+# kin_th = (
+#     'Multiplex',
+#     {
+#         'Цум' : 'https://multiplex.ua/cinema/kyiv/tsum',
+#         'Лавіна' : 'https://multiplex.ua/cinema/kyiv/lavina',
+#         'Республіка' : 'https://multiplex.ua/cinema/kyiv/respublika',
+#         'Проспект' : 'https://multiplex.ua/cinema/kyiv/prospect',
+#         'Комод' : 'https://multiplex.ua/cinema/kyiv/komod',
+#         'Атмосфера' : 'https://multiplex.ua/cinema/kyiv/atmosphera',
+#         'Краван': 'https://multiplex.ua/cinema/kyiv/karavan',
+#         'Ретровіль': 'https://multiplex.ua/cinema/kyiv/retroville'
+#     }
+# )
+# print(kin_th[1][a])
+#-------------------------------------------------------------------
+# import sqlite3
+#
+# def time_film(film):
+#     sql_text = """SELECT time FROM films2 WHERE film = ?"""
+#     conn = sqlite3.connect("multiplex.db")
+#     curs = conn.cursor()
+#     curs.execute(sql_text, (film,))
+#     res = curs.fetchall()
+#     conn.close()
+#     s = []
+#     # kb_films = ReplyKeyboardMarkup()
+#     for i in res:
+#         s.append(i[0])
+#         print(i[0])
+#     return
+#
+# a = "Лускунчик"
+# print(time_film(a))
+import sqlite3
+
+def time_film(film):
+    sql_text = """SELECT time, date FROM films2 WHERE film = ? AND date = 24122021 AND build = 'ЦУМ'"""
+    conn = sqlite3.connect("multiplex.db")
+    curs = conn.cursor()
+    curs.execute(sql_text, (film,))
+    res = curs.fetchall()
+    conn.close()
+    print(res)
+
+time_film("Співай 2")
